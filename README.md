@@ -1,163 +1,272 @@
 # 🎵 Podcast Listening Time Prediction
 
-A machine learning-based system that predicts how long a user is likely to listen to a podcast episode, based on episode metadata. This project includes a complete pipeline from data ingestion to a deployable prediction API.
+This project is built to **predict how long a user is likely to listen to a podcast episode** using metadata as input. It encapsulates the full lifecycle of a machine learning project: from ingestion to deployment.
 
 ---
 
 ## 🧠 Objective
 
-Build a regression model that estimates `Listening_Time_minutes` for podcast episodes using structured metadata like title, podcast ID, duration, and more.
+To develop a robust and production-ready ML system that:
+
+* Takes structured metadata of podcast episodes
+* Cleans, encodes, and processes the data
+* Predicts user listening time (in minutes)
+* Serves predictions via a FastAPI endpoint
 
 ---
 
-## ⚙️ Features
+## ⚙️ Key Features
 
-* Modular, production-grade ML pipeline
-* Structured exception handling
-* Data preprocessing, cleaning, and transformation
-* Prediction via REST API (FastAPI)
-* CORS-enabled for integration with web frontends
-* Well-organized project structure
+* Modular pipeline design with reusable components
+* Custom error handling for robustness
+* FastAPI backend with CORS support
+* Scalable and cloud-deployable via Docker + GitHub Actions + AWS ECR
 
 ---
 
-## 📂 Pipeline Flow
+## 📂 Project Structure
 
-```
-Raw CSV File
-    ↓
-Data Ingestion
-    ↓
-Data Preprocessing (handle missing values, outliers, zero values)
-    ↓
-Data Transformation (encoding, scaling, dropping irrelevant features)
-    ↓
-Model Inference (prediction using trained model)
-    ↓
-Output: JSON with predicted listening time
-```
-
----
-
-## 🔺 Project Structure
-
-```bash
+```text
 src/
 ├── components/
-│   ├── data_ingestion.py          # Loads and validates input data
-│   ├── data_preprocessing.py      # Handles missing data, zero values, outliers
-│   ├── data_transformation.py     # Encodes categorical variables, drops unnecessary columns
+│   ├── data_ingestion.py         # Loads input CSV
+│   ├── data_preprocessing.py     # Missing values, outliers, zeros
+│   ├── data_transformation.py    # Encodes, scales, drops cols
 ├── constants/
-│   └── __init__.py                # Centralized constants for filenames, paths, etc.
+│   └── __init__.py               # Constants (paths, schema)
 ├── entity/
-│   ├── config_entity.py           # Pipeline configuration schema
-│   ├── artifact_entity.py         # Artifact structures for component output
+│   ├── config_entity.py          # Config definitions
+│   ├── artifact_entity.py        # Artifact definitions
 ├── exceptions/
-│   └── __init__.py                # Custom exception class with stack trace logging
-├── logger.py                      # Configures logging for the pipeline
+│   └── __init__.py               # Custom exception class
+├── logger.py                     # Logging support
 ├── pipeline/
-│   └── prediction_pipeline.py     # Runs full prediction pipeline on input data
-app.py                             # FastAPI app for serving predictions
+│   └── prediction_pipeline.py    # Pipeline controller
+app.py                            # FastAPI backend
 ```
 
 ---
 
-## 🔢 Key Components
+## 🔄 End-to-End Flow
+
+```text
+CSV Input File
+   ↓
+Data Ingestion
+   ↓
+Data Preprocessing (nulls, zeros, outliers)
+   ↓
+Data Transformation (encode, scale)
+   ↓
+Prediction (model.pkl)
+   ↓
+Output: Listening Time (minutes)
+```
+
+---
+
+## 🔹 Detailed Module Descriptions
 
 ### 1. `data_ingestion.py`
 
-* Validates the existence of input CSV
-* Returns a data artifact containing the file path
+* Verifies and loads CSV file
+* Returns ingestion artifact with file path
 
 ### 2. `data_preprocessing.py`
 
-* `fill_missing_values()` - fills nulls with appropriate strategies
-* `replace_zero_values()` - replaces invalid zero values
-* `types_of_columns()` - detects numeric and categorical columns
-* `remove_outliers()` - removes outliers using IQR
+* Handles:
+
+  * Missing values
+  * Zero replacements
+  * Outlier removal (IQR-based)
 
 ### 3. `data_transformation.py`
 
-* `label_encoding()` - label encodes Title and Podcast columns
-* `other_columns_encoding()` - encodes other categorical fields
-* `drop_unwanted_columns()` - removes original string-based columns
+* Label encodes categorical variables (e.g., Podcast, Title)
+* Drops irrelevant columns post-encoding
 
 ### 4. `prediction_pipeline.py`
 
-* Loads `model.pkl`
-* Applies preprocessing and transformation on the uploaded file
-* Makes predictions and maps them to the corresponding ID
+* Loads trained model (`model.pkl`)
+* Applies full transformation to new data
+* Returns predictions
 
 ### 5. `app.py`
 
-* Exposes `/predict/` API endpoint
-* Accepts CSV via `multipart/form-data`
-* Returns top 10 predictions in JSON
+* FastAPI service that:
+
+  * Accepts CSV via `/predict/`
+  * Applies prediction pipeline
+  * Returns top 10 predictions in JSON
 
 ---
 
-## 🔢 Target Column
+## 📈 Target Variable
 
-The model predicts:
-
-```text
-Listening_Time_minutes
-```
+**`Listening_Time_minutes`** - predicted total user listening time for an episode.
 
 ---
 
-## 🚨 Error Handling
+## ⛨️ Error Handling
 
-* Custom error class `CustomException` is used across the codebase.
-* Provides detailed traceback, filename, and line number for easier debugging.
+Errors across all components are caught using a custom exception class `CustomException`, which includes tracebacks and debug info.
 
 ---
 
-## 🌐 API Endpoint
+## 📊 API Usage
 
-### Start the Server
+### Start the API Server:
 
 ```bash
-uvicorn app:app --reload
+uvicorn app:app --reload or python app.py
 ```
 
-### Prediction Endpoint
+### Endpoint:
 
 ```
 POST /predict/
 ```
 
-* **Consumes:** CSV file (`multipart/form-data`)
-* **Returns:** JSON with `ID` and predicted `Listening_Time_minutes`
+### Request:
+
+* Content-Type: multipart/form-data
+* Input: CSV file
+
+### Response:
+
+* JSON array of top 10 predictions
+
+```json
+[
+  {
+    "id": 123,
+    "Listening_Time_minutes": 28.4
+  },
+  ...
+]
+```
 
 ---
 
 ## 📄 Input File Format
 
-Required columns in CSV:
-
+```csv
+id,Podcast,Title,Duration,...
+1,"The Tech Pod","AI Trends",34,...
 ```
-id, Podcast, Title, Duration, ...
+
+Ensure all required features are present and clean.
+
+---
+
+## ⚖️ Configuration & Constants
+
+Defined in: `src/constants/__init__.py`
+
+| Constant           | Description                  |
+| ------------------ | ---------------------------- |
+| `DATA_FILE_NAME`   | CSV input file name          |
+| `SCHEMA_FILE_PATH` | Path to schema JSON          |
+| `MODEL_FILE_NAME`  | Path to trained model        |
+| `SAVED_MODEL_DIR`  | Directory to save/load model |
+
+---
+
+## 🚀 Docker Deployment
+
+### Dockerfile:
+
+```dockerfile
+FROM python:3.10-slim-buster
+WORKDIR /app
+COPY . /app
+RUN apt update -y && apt install awscli -y
+RUN pip install --no-cache-dir -r requirements.txt
+CMD ["python", "app.py"]
+```
+
+### Build & Run:
+
+```bash
+docker build -t podcast-predictor .
+docker run -p 8000:8000 podcast-predictor
+```
+### Buiding an docker image manually is optional as the action will do it for you.
+
+---
+
+## 📦 CI/CD with GitHub Actions
+
+### File: `.github/workflows/main.yaml`
+
+### Workflow Stages:
+
+1. **Integration**
+
+   * Installs dependencies
+   * Placeholder for linting & unit tests
+
+2. **Delivery**
+
+   * Builds Docker image
+   * Pushes to Amazon ECR
+
+3. **Deployment**
+
+   * Self-hosted EC2 runner
+   * Pulls latest image
+   * Runs container on port `8000`
+
+### Secrets Required:
+
+| Secret Key              | Description         |
+| ----------------------- | ------------------- |
+| `AWS_ACCESS_KEY_ID`     | AWS credentials     |
+| `AWS_SECRET_ACCESS_KEY` | AWS credentials     |
+| `AWS_REGION`            | AWS region          |
+| `AWS_ECR_LOGIN_URI`     | ECR login URI       |
+| `ECR_REPOSITORY`        | ECR repository name |
+
+---
+
+## 🌐 API Flowchart
+
+```text
++---------------------+
+|   Input CSV Upload  |
++---------------------+
+           |
+           v
++---------------------+
+|  Data Ingestion     |
++---------------------+
+           |
+           v
++---------------------+
+| Preprocessing       |
+| (missing, outliers) |
++---------------------+
+           |
+           v
++---------------------+
+| Transformation      |
+| (label encode)      |
++---------------------+
+           |
+           v
++---------------------+
+| Model Prediction    |
++---------------------+
+           |
+           v
++---------------------+
+| JSON Output         |
++---------------------+
 ```
 
 ---
 
-## 🔧 Configuration & Constants
-
-Defined in `src/constants/__init__.py`
-
-Important Constants:
-
-* `DATA_FILE_NAME`: input file name
-* `SCHEMA_FILE_PATH`: path to schema YAML
-* `SAVED_MODEL_DIR`: location where model is saved
-* `MODEL_FILE_NAME`: trained model filename
-
----
-
-## 📂 Requirements
-
-Install all dependencies:
+## 🚚 Install Requirements
 
 ```bash
 pip install -r requirements.txt
@@ -168,44 +277,4 @@ pip install -r requirements.txt
 ## 📧 Contact
 
 **Author:** Vamshi
-For queries or contributions, feel free to reach out.
-
----
-
-## 🔹 Pipeline Diagram
-
-```
-+-------------------+
-|  Raw Input CSV    |
-+-------------------+
-          |
-          v
-+------------------------------+
-|     Data Ingestion           |
-| (check file exists, load)    |
-+------------------------------+
-          |
-          v
-+------------------------------+
-|    Data Preprocessing        |
-| (fill missing, zero, outliers)|
-+------------------------------+
-          |
-          v
-+------------------------------+
-|   Data Transformation        |
-| (encode categorical vars)    |
-+------------------------------+
-          |
-          v
-+------------------------------+
-|       Model Prediction       |
-|   (load model.pkl & predict) |
-+------------------------------+
-          |
-          v
-+------------------------------+
-|     Output JSON Response     |
-|   [ID, Predicted Time]       |
-+------------------------------+
-```
+For queries or collaborations, feel free to reach out.
