@@ -1,0 +1,15 @@
+artifact_uri: file:///home/litzchill/vamshi/Podcast_listen_time/Notebooks/mlruns/266539205082961641/77a0cd02e7364ea4a7884487cb228c55/artifacts
+end_time: 1745582989120
+entry_point_name: ''
+experiment_id: '266539205082961641'
+lifecycle_stage: active
+run_id: 77a0cd02e7364ea4a7884487cb228c55
+run_name: agreeable-fish-74
+run_uuid: 77a0cd02e7364ea4a7884487cb228c55
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1745582778338
+status: 3
+tags: []
+user_id: litzchill

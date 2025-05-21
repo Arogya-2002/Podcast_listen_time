@@ -1,0 +1,16 @@
+ipykernel
+pandas 
+numpy
+matplotlib
+seaborn
+scikit-learn
+tensorflow
+keras-tuner
+tqdm
+mlflow
+keras
+hyperopt
+joblib
+ipykernel
+fastapi
+uvicorn

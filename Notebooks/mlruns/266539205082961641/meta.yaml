@@ -1,0 +1,6 @@
+artifact_location: file:///home/litzchill/vamshi/Podcast_listen_time/Notebooks/mlruns/266539205082961641
+creation_time: 1745582778316
+experiment_id: '266539205082961641'
+last_update_time: 1745582778316
+lifecycle_stage: active
+name: predict_podcast_time

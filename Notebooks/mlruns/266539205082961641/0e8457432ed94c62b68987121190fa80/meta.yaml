@@ -1,0 +1,15 @@
+artifact_uri: file:///home/litzchill/vamshi/Podcast_listen_time/Notebooks/mlruns/266539205082961641/0e8457432ed94c62b68987121190fa80/artifacts
+end_time: 1745582831365
+entry_point_name: ''
+experiment_id: '266539205082961641'
+lifecycle_stage: active
+run_id: 0e8457432ed94c62b68987121190fa80
+run_name: dashing-doe-520
+run_uuid: 0e8457432ed94c62b68987121190fa80
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1745582778435
+status: 3
+tags: []
+user_id: litzchill

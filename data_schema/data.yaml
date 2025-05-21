@@ -1,0 +1,29 @@
+columns:
+ - id: int64                  
+ - Podcast_Name: object                
+ - Episode_Title: object      
+ - Episode_Length_minutes: float64        
+ - Genre: object                      
+ - Host_Popularity_percentage: float64
+ - Publication_Day: object      
+ - Publication_Time: object 
+ - Guest_Popularity_percentage: float64
+ - Number_of_Ads: float64
+ - Episode_Sentiment: object
+ - Listening_Time_minutes: float64
+
+numerical_columns:
+ - Episode_Length_minutes
+ - Host_Popularity_percentage
+ - Guest_Popularity_percentage
+ - Number_of_Ads
+ - Listening_Time_minutes
+
+
+categorical_columns:
+ - Podcast_Name
+ - Episode_Title
+ - Genre
+ - Publication_Day
+ - Publication_Time
+ - Episode_Sentiment

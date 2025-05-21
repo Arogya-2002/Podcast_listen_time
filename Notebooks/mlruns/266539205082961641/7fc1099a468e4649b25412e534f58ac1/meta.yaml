@@ -1,0 +1,15 @@
+artifact_uri: file:///home/litzchill/vamshi/Podcast_listen_time/Notebooks/mlruns/266539205082961641/7fc1099a468e4649b25412e534f58ac1/artifacts
+end_time: 1745582986325
+entry_point_name: ''
+experiment_id: '266539205082961641'
+lifecycle_stage: active
+run_id: 7fc1099a468e4649b25412e534f58ac1
+run_name: suave-wolf-333
+run_uuid: 7fc1099a468e4649b25412e534f58ac1
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1745582932755
+status: 3
+tags: []
+user_id: litzchill

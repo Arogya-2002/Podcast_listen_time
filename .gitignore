@@ -1,0 +1,8 @@
+venv/
+Artifacts/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+logs/
