@@ -282,4 +282,4 @@ For queries or collaborations, feel free to reach out.
 
 For setting up AWS and Git Hub actions please follow the below document
 
-[text](https://docs.google.com/document/d/1AgYis5BDO1UQcvgdYWF5rbcHFOOBXmHIrPfO31nuxYs/edit?usp=sharing)
+[Document Link](https://docs.google.com/document/d/1AgYis5BDO1UQcvgdYWF5rbcHFOOBXmHIrPfO31nuxYs/edit?usp=sharing)
